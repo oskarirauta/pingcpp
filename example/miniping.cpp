@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
 			proto == network::protocol::IPV4 ? "IPv4" : "ANY" ));
 	std::cout << " protocol" << std::endl;
 
+	setuid(getuid());
 	network::ping_t ping(host, proto);
 
 	if ( ping.connection -> protocol == network::protocol::ANY ) {
