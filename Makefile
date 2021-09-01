@@ -1,4 +1,4 @@
-all: ping
+all: ping miniping
 
 IPV6?=1
 CXX?=g++
@@ -12,6 +12,9 @@ NETWORK_OBJS:= \
 
 PING_OBJS:= \
 	objs/pingmain.o
+
+MINIPING_OBJS:= \
+	objs/miniping.o
 
 LIBS:=
 INCLUDES:=-I./include -I.
@@ -40,8 +43,14 @@ objs/ping6.o: network/ping6.cpp
 objs/pingmain.o: example/ping.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<;
 
+objs/miniping.o: example/miniping.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<;
+
 ping: $(SHARED_OBJS) $(NETWORK_OBJS) $(PING_OBJS)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SHARED_OBJS) $(NETWORK_OBJS) $(PING_OBJS) $(LIBS) -o $@;
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@;
+
+miniping: $(SHARED_OBJS) $(NETWORK_OBJS) $(MINIPING_OBJS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@;
 
 clean:
-	rm -f objs/*.o ping
+	rm -f objs/*.o ping miniping
