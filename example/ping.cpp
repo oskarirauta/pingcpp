@@ -137,7 +137,6 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 
-	setuid(getuid());
 	network::ping_t ping(host, any ? network::protocol::ANY :
 		( ipv6 ? network::protocol::IPV6 : network::protocol::IPV4));
 

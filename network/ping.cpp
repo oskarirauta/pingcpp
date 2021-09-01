@@ -19,6 +19,8 @@ network::ping_t::ping_t(std::string address, network::protocol protocol) {
 
 	int res;
 
+	setuid(getuid());
+
 	if (( res = network::dns_lookup(address, this -> host_addr, this -> protocol)) != 0 ) {
 		this -> host_addr = address;
 		this -> connection -> ipaddr = address;
