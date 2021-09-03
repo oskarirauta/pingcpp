@@ -179,7 +179,7 @@ namespace common {
 	template<typename K, typename V>
 	inline bool mapContains(K key, const std::map<K, V> Map) {
 
-	for (typename std::map<K, V>::const_iterator it = Map.begin(); it != Map.end(); i>
+	for (typename std::map<K, V>::const_iterator it = Map.begin(); it != Map.end(); it++ )
 		if ( it -> first == key )
 			return true;
 
