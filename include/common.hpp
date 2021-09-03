@@ -175,4 +175,14 @@ namespace common {
 			(std::chrono::system_clock::now().time_since_epoch());
 	}
 
+	template<typename K, typename V>
+	inline bool mapContains(K key, const std::map<K, V> Map) {
+
+	for (typename std::map<K, V>::const_iterator it = Map.begin(); it != Map.end(); i>
+		if ( it -> first == key )
+			return true;
+
+	return false;
+	}
+
 }
