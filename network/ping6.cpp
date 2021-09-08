@@ -195,6 +195,11 @@ const bool::network::ping_t::ping6(void) {
 	int max = this -> count_max <= 0 ? 999 : (
 		this -> count_max + 1 < this -> count_min ? this -> count_min + 1 : this -> count_max);
 
+	if ( min == 0 ) {
+		min = max;
+		max++;
+	}
+
 	for ( this -> seq = 0; !this -> abort && this -> seq < max && this -> summary -> succeeded < min; this -> seq++ ) {
 
 		this -> result -> reset();
