@@ -20,22 +20,13 @@ inline void report(network::ping_t *ping) {
 	else if ( ping -> result -> error_code == network::ping_error::PING_NOREPLY )
 		std::cout << "No reply from " << ping -> result -> addr << " for unknown reason" << std::endl;
 	else if ( ping -> result -> error_code == network::ping_error::PING_PERMISSION ) {
-		std::cout << "You need to be root to ping." << std::endl;
-		ping -> abort = true;
-		failed = true;
-	} else if ( ping -> result -> error_code == network::ping_error::PING_CONNFAIL ) {
-		std::cout << "Socket failed to connect to host " << ping -> result -> addr << std::endl;
-		ping -> abort = true;
-		failed = true;
-	} else if ( ping -> result -> error_code == network::ping_error::PING_EBADF ) {
-		std::cout << "Socket: bad file descriptor" << std::endl;
-		ping -> abort = true;
-		failed = true;
-	} else if ( ping -> result -> error_code == network::ping_error::PING_UNKNOWNPROTOCOL ) {
-		std::cout << "Protocol of " << ping -> result -> addr << " is not supported" << std::endl;
-		ping -> abort = true;
-		failed = true;
-	}
+		std::cout << "Aborting. You need to be root to ping." << std::endl;
+	else if ( ping -> result -> error_code == network::ping_error::PING_CONNFAIL ) {
+		std::cout << "Aborting. Socket failed to connect to host " << ping -> result -> addr << std::endl;
+	else if ( ping -> result -> error_code == network::ping_error::PING_EBADF ) {
+		std::cout << "Aborting. Socket: bad file descriptor" << std::endl;
+	else if ( ping -> result -> error_code == network::ping_error::PING_UNKNOWNPROTOCOL ) {
+		std::cout << "Aborting. Protocol of " << ping -> result -> addr << " is not supported" << std::endl;
 
 	if ( ping -> result -> error_code != network::ping_error::PING_NOERROR )
 		return;

@@ -216,7 +216,7 @@ const bool::network::ping_t::ping4(void) {
 	int max = this -> count_max <= 0 ? 999 : (
 		this -> count_max + 1 < this -> count_min ? this -> count_min + 1 : this -> count_max);
 
-	for ( this -> seq = 0; !this -> abort && this -> seq < max && this -> seq < min; this -> seq++ ) {
+	for ( this -> seq = 0; !this -> abort && this -> seq < max && this -> summary -> succeeded < min; this -> seq++ ) {
 
 		this -> result -> reset();
 		this -> summary -> seq++;
@@ -231,9 +231,17 @@ const bool::network::ping_t::ping4(void) {
 			this -> result -> end = common::get_millis();
 		}
 
+		if ( this -> should_abort()) {
+			this -> summary -> aborted = true;
+			this -> abort = true;
+		}
+
 		if ( this -> report != NULL )
 			this -> report(this);
+
+		if ( this -> should_abort())
+			this -> abort = true;
 	}
 
-	return true;
+	return this -> abort || this -> summary -> succeeded < min ? false : true;
 }

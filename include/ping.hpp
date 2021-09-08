@@ -90,6 +90,7 @@ namespace network {
 			int received = 0;
 			int failed = 0;
 			int succeeded = 0;
+			bool aborted = false;
 
 			inline void reset(void) {
 				this -> seq = 0;
@@ -97,6 +98,7 @@ namespace network {
 				this -> received = 0;
 				this -> failed = 0;
 				this -> succeeded = 0;
+				this -> aborted = false;
 			}
 	};
 
@@ -113,6 +115,7 @@ namespace network {
 
 			const int _packetsize(void);
 
+			const bool should_abort(void);
 			const uint16_t cksum4(uint16_t *buf, size_t sz);
 			const bool unpack4(char *buf, int sz);
 			void setsockopts4(void);

@@ -74,6 +74,14 @@ network::ping_t::~ping_t(void) {
 	free( this -> summary);
 }
 
+const bool network::ping_t::should_abort(void) {
+
+	return ( this -> result -> error_code == network::ping_error::PING_PERMISSION ||
+		this -> result -> error_code == network::ping_error::PING_CONNFAIL ||
+		this -> result -> error_code == network::ping_error::PING_EBADF ||
+		this -> result -> error_code == network::ping_error::PING_UNKNOWNPROTOCOL ) ? true : false;
+}
+
 const int network::ping_t::_packetsize(void) {
 
 	return this -> packetsize < 0 ? 0 :

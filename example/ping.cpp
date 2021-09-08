@@ -4,8 +4,6 @@
 #include "network.hpp"
 #include "ping.hpp"
 
-bool failed = false;
-
 #ifdef __IPV6__
 # define TITLE "ping(+IPV6), by Oskari Rauta\nMIT License\n"
 #else
@@ -162,7 +160,7 @@ int main(int argc, char *argv[]) {
 
 	ping.execute();
 
-	if ( failed ) {
+	if ( ping.summary -> aborted ) {
 		std::cout << "Exited because of error" << std::endl;
 		return -1;
 	}
