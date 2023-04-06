@@ -1,14 +1,14 @@
-all: ping miniping
+all: world
 
 IPV6?=1
-CXX?=g++
+PINGCPP_DIR=.
 
+CXX?=g++
+CXXFLAGS:=--std=c++17
+INCLUDES:=-I./include -I.
+LIBS:=
 SHARED_OBJS:= \
 	objs/common.o
-
-NETWORK_OBJS:= \
-	objs/network.o \
-	objs/ping.o objs/ping4.o
 
 PING_OBJS:= \
 	objs/pingmain.o
@@ -16,28 +16,11 @@ PING_OBJS:= \
 MINIPING_OBJS:= \
 	objs/miniping.o
 
-LIBS:=
-INCLUDES:=-I./include -I.
-CXXFLAGS:=--std=c++17
+include Makefile.inc
 
-ifneq ($(IPV6),0)
-	CXXFLAGS+= -D__IPV6__
-	NETWORK_OBJS+= objs/ping6.o
-endif
+world: ping miniping
 
 objs/common.o: shared/common.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<;
-
-objs/network.o: network/network.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<;
-
-objs/ping.o: network/ping.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<;
-
-objs/ping4.o: network/ping4.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<;
-
-objs/ping6.o: network/ping6.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<;
 
 objs/pingmain.o: example/ping.cpp
@@ -46,10 +29,10 @@ objs/pingmain.o: example/ping.cpp
 objs/miniping.o: example/miniping.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<;
 
-ping: $(SHARED_OBJS) $(NETWORK_OBJS) $(PING_OBJS)
+ping: $(SHARED_OBJS) $(PINGCPP_OBJS) $(PING_OBJS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@;
 
-miniping: $(SHARED_OBJS) $(NETWORK_OBJS) $(MINIPING_OBJS)
+miniping: $(SHARED_OBJS) $(PINGCPP_OBJS) $(MINIPING_OBJS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@;
 
 clean:
