@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 #include "example/report.hpp"
-#include "network.hpp"
+#include "ping_utils.hpp"
 #include "ping.hpp"
 
-#ifdef __IPV6__
+#ifdef __PINGCPP_IPV6__
 # define TITLE "ping(+IPV6), by Oskari Rauta\nMIT License\n"
 #else
 # define TITLE "ping, by Oskari Rauta\nMIT License\n"
@@ -158,10 +158,16 @@ int main(int argc, char *argv[]) {
 	ping.count_max = max;
 	ping.report = report;
 
-	ping.execute();
+        if ( !ping.execute()) {
+		std::cout << "\nResult: ";
+		report_error(&ping);
+		if ( ping.result -> error_code == network::ping_error::PING_NOERROR )
+			std::cout << "strange.. ping failed, but no error reported.." << std::endl;
+		return -1;
+	}
 
 	if ( ping.summary -> aborted ) {
-		std::cout << "Exited because of error" << std::endl;
+		std::cout << "Exited because of error/abort" << std::endl;
 		return -1;
 	}
 

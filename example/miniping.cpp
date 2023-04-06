@@ -1,12 +1,12 @@
 #include <iostream>
 #include <string>
 #include "example/report.hpp"
-#include "network.hpp"
+#include "ping_utils.hpp"
 #include "ping.hpp"
 
 #define PING_HOST "google.com"
 
-#ifdef __IPV6__
+#ifdef __PINGCPP_IPV6__
 # define TITLE "miniping(+IPV6), by Oskari Rauta\nMIT License\n"
 #else
 # define TITLE "miniping, by Oskari Rauta\nMIT License\n"
@@ -25,7 +25,6 @@ int main(int argc, char *argv[]) {
 
 	std::string host = PING_HOST;
 
-	std::cout << TITLE << std::endl;
 	std::cout << "Attempting to ping host " << host << " using ";
 	std::cout << ( proto == network::protocol::IPV6 ? "IPv6" : (
 			proto == network::protocol::IPV4 ? "IPv4" : "ANY" ));
@@ -52,13 +51,17 @@ int main(int argc, char *argv[]) {
 	std::cout << ( ping.connection -> protocol == network::protocol::IPV6 ? "IPv6" : "IPv4" );
 	std::cout << " network.\nICMP packet size: " << ping.packetsize << " bytes +";
 	std::cout << "\n\ticmp header size " << ICMP_HEADER_LENGTH << " bytes = ";
-	std::cout << ping.packetsize + ICMP_HEADER_LENGTH << " bytes\n";
+	std::cout << ping.packetsize + ICMP_HEADER_LENGTH << " bytes";
 	std::cout << std::endl;
 
-	ping.execute();
+	if ( !ping.execute()) {
+		report_error(&ping);
+		if ( ping.result -> error_code == network::ping_error::PING_NOERROR )
+			std::cout << "strange.. ping failed, but no error reported.." << std::endl;
+		return -1;
+	}
 
-	std::cout << std::endl;
-	if ( ping.summary -> aborted ) std::cout << "Exited because of error" << std::endl;
+	if ( ping.summary -> aborted ) std::cout << "\nExited because of error" << std::endl;
 
 	return ping.summary -> aborted ? -1 : 0;
 }
