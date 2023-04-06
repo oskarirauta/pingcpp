@@ -9,7 +9,7 @@ namespace network {
 
 	typedef enum {
 		IPV4 = 0,
-#ifdef __IPV6__
+#ifdef __PINGCPP_IPV6__
 		IPV6,
 #endif
 		ANY

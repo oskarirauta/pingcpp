@@ -4,13 +4,13 @@
 #include <chrono>
 #include <netdb.h>
 
-#include "network.hpp"
+#include "ping_utils.hpp"
 
 #ifndef ICMP_HEADER_LENGTH
 # define ICMP_HEADER_LENGTH sizeof(struct icmp *)
 #endif
 
-#ifdef __IPV6__
+#ifdef __PINGCPP_IPV6__
 # ifndef ICMP6_HEADER_LENGTH
 #  define ICMP6_HEADER_LENGTH ICMP_HEADER_LENGTH
 # endif
@@ -124,7 +124,7 @@ namespace network {
 			const bool receive4(void);
 			const bool ping4(void);
 
-#ifdef __IPV6__
+#ifdef __PINGCPP_IPV6__
 			const bool unpack6(char *buf, int sz, int hoplimit);
 			void setsockopts6(void);
 			const bool create_socket6(void);

@@ -1,5 +1,5 @@
 #include <netdb.h>
-#include "network.hpp"
+#include "ping_utils.hpp"
 
 const int network::protocolOf(const std::string ipaddr, network::protocol &family) {
 
@@ -12,7 +12,7 @@ const int network::protocolOf(const std::string ipaddr, network::protocol &famil
 	if (( res = getaddrinfo(ipaddr.c_str(), NULL, &hints, &ai)) != 0 )
 		return res;
 
-#ifdef __IPV6__
+#ifdef __PINGCPP_IPV6__
 	family = ai -> ai_family == AF_INET ? network::protocol::IPV4 :
 		( ai -> ai_family == AF_INET6 ? network::protocol::IPV6 : family);
 #else
@@ -29,7 +29,7 @@ const int network::get_dns_records(const std::string address, std::vector<std::s
 
 	int res;
 	struct addrinfo *ai, hints = {
-#ifdef __IPV6__
+#ifdef __PINGCPP_IPV6__
 		.ai_family = family == network::protocol::IPV4 ? AF_INET :
 				( family == network::protocol::IPV6 ? AF_INET6 : AF_UNSPEC),
 #else

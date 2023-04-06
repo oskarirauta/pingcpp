@@ -41,13 +41,13 @@ network::ping_t::ping_t(std::string address, network::protocol protocol) {
 
 	struct addrinfo hints = {
 		.ai_flags = AI_NUMERICHOST,
-#ifdef __IPV6__
+#ifdef __PINGCPP_IPV6__
 		.ai_family = this -> protocol == network::protocol::IPV4 ? AF_INET : AF_INET6,
 #else
 		.ai_family = AF_INET,
 #endif
 		.ai_socktype = SOCK_RAW,
-#ifdef __IPV6__
+#ifdef __PINGCPP_IPV6__
 		.ai_protocol = this -> protocol == network::protocol::IPV4 ? IPPROTO_ICMP : IPPROTO_ICMPV6,
 #else
 		.ai_protocol = IPPROTO_ICMP,
@@ -105,7 +105,7 @@ const bool network::ping_t::execute(void) {
 		return false;
 	}
 
-#ifdef __IPV6__
+#ifdef __PINGCPP_IPV6__
 	return this -> protocol == network::protocol::IPV6 ?
 			this -> ping6() : this -> ping4();
 #else
