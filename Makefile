@@ -7,8 +7,6 @@ CXX?=g++
 CXXFLAGS:=--std=c++17
 INCLUDES:=-I./include -I.
 LIBS:=
-SHARED_OBJS:= \
-	objs/common.o
 
 PING_OBJS:= \
 	objs/pingmain.o
@@ -16,12 +14,10 @@ PING_OBJS:= \
 MINIPING_OBJS:= \
 	objs/miniping.o
 
+include common/Makefile.inc
 include Makefile.inc
 
 world: ping miniping
-
-objs/common.o: shared/common.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<;
 
 objs/pingmain.o: example/ping.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<;
@@ -29,10 +25,10 @@ objs/pingmain.o: example/ping.cpp
 objs/miniping.o: example/miniping.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<;
 
-ping: $(SHARED_OBJS) $(PINGCPP_OBJS) $(PING_OBJS)
+ping: $(COMMON_OBJS) $(PINGCPP_OBJS) $(PING_OBJS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@;
 
-miniping: $(SHARED_OBJS) $(PINGCPP_OBJS) $(MINIPING_OBJS)
+miniping: $(COMMON_OBJS) $(PINGCPP_OBJS) $(MINIPING_OBJS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@;
 
 clean:
