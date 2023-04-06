@@ -43,7 +43,7 @@ const int network::get_dns_records(const std::string address, std::vector<std::s
 
 	struct addrinfo *p;
 	char ip_address[INET6_ADDRSTRLEN];
-	int oldsize = results.size();
+	size_t oldsize = results.size();
 
 	for ( p = ai; p != NULL; p = p -> ai_next )
 		if (( res = getnameinfo((struct sockaddr *)p -> ai_addr, p -> ai_addrlen, ip_address, sizeof ip_address,

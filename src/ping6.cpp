@@ -5,7 +5,7 @@
 #include "common.hpp"
 #include "ping.hpp"
 
-const bool network::ping_t::unpack6(char *buf, int sz, int hoplimit) {
+const bool network::ping_t::unpack6(char *buf, size_t sz, int hoplimit) {
 
 	struct icmp6_hdr *ip_packet = (struct icmp6_hdr *)buf;
 
@@ -29,8 +29,8 @@ const bool network::ping_t::unpack6(char *buf, int sz, int hoplimit) {
 
 const bool network::ping_t::send6(void) {
 
-	int send_result;
-	int packetsize = ICMP6_HEADER_LENGTH + this -> _packetsize();
+	size_t send_result;
+	size_t packetsize = ICMP6_HEADER_LENGTH + this -> _packetsize();
 	int bufsize = packetsize + 128;
 	char data[bufsize];
 	if ( packetsize > ICMP6_HEADER_LENGTH )

@@ -82,7 +82,7 @@ const bool network::ping_t::should_abort(void) {
 		this -> result -> error_code == network::ping_error::PING_UNKNOWNPROTOCOL ) ? true : false;
 }
 
-const int network::ping_t::_packetsize(void) {
+const size_t network::ping_t::_packetsize(void) {
 
 	return this -> packetsize < 0 ? 0 :
 		( this -> packetsize > ( 65515 - ICMP_HEADER_LENGTH ) ?

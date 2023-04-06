@@ -159,7 +159,7 @@ int main(int argc, char *argv[]) {
 	ping.report = report;
 
         if ( !ping.execute()) {
-		std::cout << "\nResult: ";
+		std::cout << "Error: ";
 		report_error(&ping);
 		if ( ping.result -> error_code == network::ping_error::PING_NOERROR )
 			std::cout << "strange.. ping failed, but no error reported.." << std::endl;

@@ -113,11 +113,11 @@ namespace network {
 			struct addrinfo *ai;
 			network::protocol protocol = network::protocol::IPV4;
 
-			const int _packetsize(void);
+			const size_t _packetsize(void);
 
 			const bool should_abort(void);
 			const uint16_t cksum4(uint16_t *buf, size_t sz);
-			const bool unpack4(char *buf, int sz);
+			const bool unpack4(char *buf, size_t sz);
 			void setsockopts4(void);
 			const bool create_socket4(void);
 			const bool send4(void);
@@ -125,7 +125,7 @@ namespace network {
 			const bool ping4(void);
 
 #ifdef __PINGCPP_IPV6__
-			const bool unpack6(char *buf, int sz, int hoplimit);
+			const bool unpack6(char *buf, size_t sz, int hoplimit);
 			void setsockopts6(void);
 			const bool create_socket6(void);
 			const bool send6(void);
@@ -136,7 +136,7 @@ namespace network {
 		public:
 			std::chrono::milliseconds timeout = std::chrono::milliseconds(5000);
 			std::chrono::milliseconds delay = std::chrono::milliseconds(500);
-			int packetsize = 56;
+			size_t packetsize = 56;
 			int count_min = 1;
 			int count_max = 3;
 			bool abort = false;

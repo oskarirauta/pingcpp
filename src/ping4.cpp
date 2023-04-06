@@ -29,9 +29,9 @@ const uint16_t network::ping_t::cksum4(uint16_t *buf, size_t sz) {
 	return ~sum;
 }
 
-const bool network::ping_t::unpack4(char *buf, int sz) {
+const bool network::ping_t::unpack4(char *buf, size_t sz) {
 
-	int packetsize = ICMP_HEADER_LENGTH + this -> _packetsize();
+	size_t packetsize = ICMP_HEADER_LENGTH + this -> _packetsize();
 	if ( sz < packetsize )
 		packetsize = sz;
 
@@ -40,7 +40,7 @@ const bool network::ping_t::unpack4(char *buf, int sz) {
 	if ( ip_packet -> ip_p == IPPROTO_ICMP ) {
 
 		int ip_header_length = ip_packet -> ip_hl << 2;
-		int icmp_packet_length = sz - ip_header_length;
+		size_t icmp_packet_length = sz - ip_header_length;
 
 		if ( icmp_packet_length >= ICMP_HEADER_LENGTH ) {
 
@@ -77,8 +77,8 @@ const bool network::ping_t::unpack4(char *buf, int sz) {
 
 const bool network::ping_t::send4(void) {
 
-	int send_result;
-	int packetsize = ICMP_HEADER_LENGTH + this -> _packetsize();
+	size_t send_result;
+	size_t packetsize = ICMP_HEADER_LENGTH + this -> _packetsize();
 	int bufsize = packetsize + 128;
 	char data[bufsize];
 	if ( packetsize > ICMP_HEADER_LENGTH )

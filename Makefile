@@ -4,7 +4,7 @@ IPV6?=1
 PINGCPP_DIR=.
 
 CXX?=g++
-CXXFLAGS:=--std=c++17
+CXXFLAGS:=--std=c++17 -Wall
 INCLUDES:=-I./include -I.
 LIBS:=
 
